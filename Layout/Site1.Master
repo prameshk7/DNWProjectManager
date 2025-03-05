@@ -1,0 +1,103 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="DataCoursework.Layout.Site1" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="bg-gray-100">
+    <form id="form1" runat="server">
+        <div class="min-h-screen flex flex-row">
+            <nav class="bg-gray-800 text-white w-64 flex-shrink-0 min-h-screen">
+                <div class="p-4 border-b border-gray-700">
+                    <h1 class="font-bold text-xl">LS Project Manager</h1>
+                </div>
+                
+                <!-- Navigation Links -->
+                <ul class="py-4">
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/Dashboard.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/milestoneForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            Milestone Details
+                        </a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/projectForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            Project Details
+                        </a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/subtaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            Subtask Details
+                        </a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/taskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            Task Details
+                        </a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/userForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                            User Details
+                        </a>
+                    </li>
+                    <!--<li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/projectTaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Project Tasks</a>
+                    </li>-->
+                     <!--<li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/taskSubtaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Task Subtasks</a>
+                    </li>-->
+
+                    <!-- Reports Submenu -->
+                    <li class="px-4 py-2">
+                        <button type="button" class="w-full text-left hover:bg-gray-700 p-2 rounded flex items-center" onclick="toggleSubmenu('reportsMenu')">
+                            Reports
+                            <svg class="w-4 h-4 ml-auto transform transition-transform" id="reportsArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <ul id="reportsMenu" class="hidden pl-6 mt-2">
+                            <li class="py-1">
+                                <a href="<%=ResolveUrl("~/WebForm/userProjectCQ.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">User Projects</a>
+                            </li>
+                            <li class="py-1">
+                                <a href="<%=ResolveUrl("~/WebForm/ProjectMilestoneCQ.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Project Milestones</a>
+                            </li>
+                            <li class="py-1">
+                                <a href="<%=ResolveUrl("~/WebForm/TopPerformerCQ.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Top Performers</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Main Content Area -->
+            <div class="flex-grow">
+                <header class="bg-white shadow">
+                    <div class="py-4 px-6">
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            <!-- Page-specific title can go here -->
+                        </h2>
+                    </div>
+                </header>
+                <main class="p-6">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </main>
+            </div>
+        </div>
+    </form>
+    <script>
+        function toggleSubmenu(menuId) {
+            const menu = document.getElementById(menuId);
+            const arrow = document.getElementById(menuId + 'Arrow');
+            menu.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+    </script>
+</body>
+</html>

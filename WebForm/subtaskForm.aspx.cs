@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace DataCoursework.WebForm
+namespace DataCoursework
 {
     public partial class subtaskForm : System.Web.UI.Page
     {
@@ -16,8 +12,139 @@ namespace DataCoursework.WebForm
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FormView2.DataBind();
+            if (GridView1.SelectedIndex >= 0)
+            {
+                FormView1.DataBind();
+            }
+        }
+
+        protected void SqlDataSourceFormView_Deleted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                if (e.Exception.Message.Contains("ORA-02292"))
+                {
+                    lblError.Text = "Cannot delete this subtask because it is referenced by other records.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+                else
+                {
+                    lblError.Text = $"An error occurred while deleting the subtask: {e.Exception.Message}. Please try again.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+            }
+            else if (e.AffectedRows == 0)
+            {
+                lblError.Text = "No subtask was deleted. The subtask may have already been removed.";
+                lblError.Visible = true;
+            }
+            else
+            {
+                lblError.Text = "Subtask deleted successfully!";
+                lblError.CssClass = "text-green-500 mb-4 block";
+                lblError.Visible = true;
+                GridView1.DataBind();
+                FormView1.DataBind();
+            }
+        }
+
+        protected void SqlDataSource1_Deleted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                if (e.Exception.Message.Contains("ORA-02292"))
+                {
+                    lblError.Text = "Cannot delete this subtask because it is referenced by other records.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+                else
+                {
+                    lblError.Text = $"An error occurred while deleting the subtask: {e.Exception.Message}. Please try again.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+            }
+            else if (e.AffectedRows == 0)
+            {
+                lblError.Text = "No subtask was deleted. The subtask may have already been removed.";
+                lblError.Visible = true;
+            }
+            else
+            {
+                lblError.Text = "Subtask deleted successfully!";
+                lblError.CssClass = "text-green-500 mb-4 block";
+                lblError.Visible = true;
+                GridView1.DataBind();
+                FormView1.DataBind();
+            }
+        }
+
+        protected void SqlDataSourceFormView_Inserted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                if (e.Exception.Message.Contains("ORA-00001"))
+                {
+                    lblError.Text = "Subtask ID already exists. Please choose a different Subtask ID.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+                else if (e.Exception.Message.Contains("ORA-02291"))
+                {
+                    lblError.Text = "Invalid Task ID or User ID. Please select a valid Task and User.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+                else
+                {
+                    lblError.Text = $"An error occurred while adding the subtask: {e.Exception.Message}. Please try again.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+            }
+            else
+            {
+                lblError.Text = "Subtask added successfully!";
+                lblError.CssClass = "text-green-500 mb-4 block";
+                lblError.Visible = true;
+                FormView1.ChangeMode(FormViewMode.Insert);
+                GridView1.DataBind();
+            }
+        }
+
+        protected void SqlDataSourceFormView_Updated(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                if (e.Exception.Message.Contains("ORA-02291"))
+                {
+                    lblError.Text = "Invalid Task ID or User ID. Please select a valid Task and User.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+                else
+                {
+                    lblError.Text = $"An error occurred while updating the subtask: {e.Exception.Message}. Please try again.";
+                    lblError.Visible = true;
+                    e.ExceptionHandled = true;
+                }
+            }
+            else if (e.AffectedRows == 0)
+            {
+                lblError.Text = "No subtask was updated. The subtask may have been deleted or modified by another user.";
+                lblError.Visible = true;
+            }
+            else
+            {
+                lblError.Text = "Subtask updated successfully!";
+                lblError.CssClass = "text-green-500 mb-4 block";
+                lblError.Visible = true;
+                GridView1.DataBind();
+                FormView1.DataBind();
+            }
         }
     }
 }
-

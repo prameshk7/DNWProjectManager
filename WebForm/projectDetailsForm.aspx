@@ -1,18 +1,21 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Layout/Site1.master" AutoEventWireup="true" CodeBehind="projectForm.aspx.cs" Inherits="DataCoursework.projectForm" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Layout/Site1.master" AutoEventWireup="true" CodeBehind="projectDetailsForm.aspx.cs" Inherits="DataCoursework.projectDetailsForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <title>Project Management</title>
+    <title>Project Details Management</title>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-semibold text-teal-700 mb-6">Project Management</h2>
+        <h2 class="text-xl font-semibold text-teal-700 mb-6">Project Details Management</h2>
         
-        <!-- Form View for Project Details -->
+        <!-- Error Message Label -->
+        <asp:Label ID="lblError" runat="server" CssClass="text-red-500 mb-4 block" Visible="false"></asp:Label>
+
+        <!-- Form View for UserProject Details -->
         <div class="mb-8 bg-gradient-to-r from-blue-50 to-teal-50 p-4 rounded-lg border border-teal-100">
             <h3 class="text-lg font-medium text-blue-700 mb-4">Project Details</h3>
             <asp:FormView ID="FormView2" runat="server" DataKeyNames="PROJECT_ID" DataSourceID="SqlDataSourceFormView" 
-                          CssClass="w-full max-w-lg">
+                          CssClass="w-full max-w-lg" AllowPaging="False">
                 <EditItemTemplate>
                     <div class="grid grid-cols-1 gap-4">
                         <div class="flex items-center">
@@ -23,6 +26,8 @@
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="PROJECT_NAMETextBox" runat="server" Text='<%# Bind("PROJECT_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvProjectNameEdit" runat="server" ControlToValidate="PROJECT_NAMETextBox" 
+                                                        ErrorMessage="Project Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Status:</label>
@@ -37,16 +42,15 @@
                             <label class="w-32 font-medium text-gray-700">Start Date:</label>
                             <asp:TextBox ID="PROJECT_START_DATETextBox" runat="server" Text='<%# Bind("PROJECT_START_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvStartDateEdit" runat="server" ControlToValidate="PROJECT_START_DATETextBox" 
+                                                        ErrorMessage="Start Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:TextBox ID="PROJECT_DUE_DATETextBox" runat="server" Text='<%# Bind("PROJECT_DUE_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
-                        </div>
-                        <div class="flex items-center">
-                            <label class="w-32 font-medium text-gray-700">User ID:</label>
-                            <asp:TextBox ID="USER_IDTextBox" runat="server" Text='<%# Bind("USER_ID") %>' 
-                                        CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvDueDateEdit" runat="server" ControlToValidate="PROJECT_DUE_DATETextBox" 
+                                                        ErrorMessage="Due Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" CommandName="Update" 
@@ -66,11 +70,15 @@
                             <label class="w-32 font-medium text-gray-700">Project ID:</label>
                             <asp:TextBox ID="PROJECT_IDTextBox" runat="server" Text='<%# Bind("PROJECT_ID") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvProjectIDInsert" runat="server" ControlToValidate="PROJECT_IDTextBox" 
+                                                        ErrorMessage="Project ID is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="PROJECT_NAMETextBox" runat="server" Text='<%# Bind("PROJECT_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvProjectNameInsert" runat="server" ControlToValidate="PROJECT_NAMETextBox" 
+                                                        ErrorMessage="Project Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Status:</label>
@@ -85,16 +93,15 @@
                             <label class="w-32 font-medium text-gray-700">Start Date:</label>
                             <asp:TextBox ID="PROJECT_START_DATETextBox" runat="server" Text='<%# Bind("PROJECT_START_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvStartDateInsert" runat="server" ControlToValidate="PROJECT_START_DATETextBox" 
+                                                        ErrorMessage="Start Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:TextBox ID="PROJECT_DUE_DATETextBox" runat="server" Text='<%# Bind("PROJECT_DUE_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
-                        </div>
-                        <div class="flex items-center">
-                            <label class="w-32 font-medium text-gray-700">User ID:</label>
-                            <asp:TextBox ID="USER_IDTextBox" runat="server" Text='<%# Bind("USER_ID") %>' 
-                                        CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvDueDateInsert" runat="server" ControlToValidate="PROJECT_DUE_DATETextBox" 
+                                                        ErrorMessage="Due Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" CommandName="Insert" 
@@ -130,10 +137,6 @@
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:Label ID="PROJECT_DUE_DATELabel" runat="server" Text='<%# Bind("PROJECT_DUE_DATE") %>' CssClass="text-gray-900" />
                         </div>
-                        <div class="flex items-center">
-                            <label class="w-32 font-medium text-gray-700">User ID:</label>
-                            <asp:Label ID="USER_IDLabel" runat="server" Text='<%# Bind("USER_ID") %>' CssClass="text-gray-900" />
-                        </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="EditButton" runat="server" CausesValidation="False" CommandName="Edit" 
                                           CssClass="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">
@@ -152,29 +155,31 @@
                     </div>
                 </ItemTemplate>
                 <EmptyDataTemplate>
-                    <p class="text-gray-600">No Project selected. Please select a project from the list below.</p>
+                    <p class="text-gray-600">No project selected. Please select a project from the list below.</p>
                 </EmptyDataTemplate>
             </asp:FormView>
         </div>
         
-        <!-- Grid View for Project List -->
+        <!-- Grid View for UserProject List -->
         <div>
-            <h3 class="text-lg font-medium text-blue-700 mb-4">All Projects</h3>
+            <h3 class="text-lg font-medium text-blue-700 mb-4">All Projects with Details</h3>
             <div class="overflow-x-auto">
-                <asp:GridView ID="GridView1" runat="server" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="PROJECT_ID" 
+                <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="PROJECT_ID" 
                               DataSourceID="SqlDataSource1" CssClass="min-w-full bg-white border-collapse"
-                              HeaderStyle-CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-black text-left"
+                              HeaderStyle-CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-white text-left"
                               RowStyle-CssClass="border-b hover:bg-blue-50" AlternatingRowStyle-CssClass="border-b bg-gray-50 hover:bg-blue-50"
-                              CellPadding="8" GridLines="None" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+                              CellPadding="8" GridLines="None" AllowSorting="True" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                     <AlternatingRowStyle CssClass="border-b bg-gray-50 hover:bg-blue-50"></AlternatingRowStyle>
                     <Columns>
-                        <asp:BoundField DataField="PROJECT_ID" HeaderText="ID" ReadOnly="True" SortExpression="PROJECT_ID" ItemStyle-CssClass="px-4 py-2" >
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
+                        <asp:BoundField DataField="PROJECT_ID" HeaderText="ID" ReadOnly="True" SortExpression="PROJECT_ID" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700" >
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:BoundField>
-                        <asp:BoundField DataField="PROJECT_NAME" HeaderText="Name" SortExpression="PROJECT_NAME" ItemStyle-CssClass="px-4 py-2" >
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
+                        <asp:BoundField DataField="PROJECT_NAME" HeaderText="Name" SortExpression="PROJECT_NAME" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700" >
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="Status" SortExpression="PROJECT_STATUS" ItemStyle-CssClass="px-4 py-2">
+                        <asp:TemplateField HeaderText="Status" SortExpression="PROJECT_STATUS" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700">
                             <ItemTemplate>
                                 <asp:Label ID="PROJECT_STATUSLabel" runat="server" Text='<%# Eval("PROJECT_STATUS") %>' />
                             </ItemTemplate>
@@ -186,9 +191,10 @@
                                     <asp:ListItem Text="Completed" Value="Completed"></asp:ListItem>
                                 </asp:DropDownList>
                             </EditItemTemplate>
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Start Date" SortExpression="PROJECT_START_DATE" ItemStyle-CssClass="px-4 py-2">
+                        <asp:TemplateField HeaderText="Start Date" SortExpression="PROJECT_START_DATE" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700">
                             <ItemTemplate>
                                 <asp:Label ID="PROJECT_START_DATELabel" runat="server" Text='<%# Eval("PROJECT_START_DATE") %>' />
                             </ItemTemplate>
@@ -196,9 +202,10 @@
                                 <asp:TextBox ID="PROJECT_START_DATETextBox" runat="server" Text='<%# Bind("PROJECT_START_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                              TextMode="DateTimeLocal" CssClass="border rounded-md p-2 w-full focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
                             </EditItemTemplate>
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Due Date" SortExpression="PROJECT_DUE_DATE" ItemStyle-CssClass="px-4 py-2">
+                        <asp:TemplateField HeaderText="Due Date" SortExpression="PROJECT_DUE_DATE" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700">
                             <ItemTemplate>
                                 <asp:Label ID="PROJECT_DUE_DATELabel" runat="server" Text='<%# Eval("PROJECT_DUE_DATE") %>' />
                             </ItemTemplate>
@@ -206,11 +213,9 @@
                                 <asp:TextBox ID="PROJECT_DUE_DATETextBox" runat="server" Text='<%# Bind("PROJECT_DUE_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                              TextMode="DateTimeLocal" CssClass="border rounded-md p-2 w-full focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
                             </EditItemTemplate>
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="USER_ID" HeaderText="User ID" SortExpression="USER_ID" ItemStyle-CssClass="px-4 py-2" >
-                            <ItemStyle CssClass="px-4 py-2"></ItemStyle>
-                        </asp:BoundField>
                         <asp:TemplateField HeaderText="Action" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700" ItemStyle-CssClass="p-4">
                             <ItemTemplate>
                                 <asp:LinkButton ID="SelectButton" runat="server" CommandName="Select" Text="Select"
@@ -234,28 +239,29 @@
                             </EditItemTemplate>
                         </asp:TemplateField>
                     </Columns>
-                    <HeaderStyle CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-black text-left"></HeaderStyle>
+                    <HeaderStyle CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-white text-left"></HeaderStyle>
                     <RowStyle CssClass="border-b hover:bg-blue-50"></RowStyle>
                 </asp:GridView>
             </div>
         </div>
         
         <!-- SQL Data Source for GridView -->
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" 
-                          ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-                          DeleteCommand='DELETE FROM PROJECT WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL)) AND USER_ID = :original_USER_ID' 
-                          InsertCommand='INSERT INTO PROJECT (PROJECT_ID, PROJECT_NAME, PROJECT_STATUS, PROJECT_START_DATE, PROJECT_DUE_DATE, USER_ID) VALUES (:PROJECT_ID, :PROJECT_NAME, :PROJECT_STATUS, :PROJECT_START_DATE, :PROJECT_DUE_DATE, :USER_ID)' 
-                          OldValuesParameterFormatString="original_{0}" 
-                          ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" 
-                          SelectCommand='SELECT * FROM PROJECT' 
-                          UpdateCommand='UPDATE PROJECT SET PROJECT_NAME = :PROJECT_NAME, PROJECT_STATUS = :PROJECT_STATUS, PROJECT_START_DATE = :PROJECT_START_DATE, PROJECT_DUE_DATE = :PROJECT_DUE_DATE, USER_ID = :USER_ID WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL)) AND USER_ID = :original_USER_ID'>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+            ConflictDetection="CompareAllValues" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT * FROM UserProject'
+            DeleteCommand='DELETE FROM UserProject WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL))'
+            InsertCommand='INSERT INTO UserProject (PROJECT_ID, PROJECT_NAME, PROJECT_STATUS, PROJECT_START_DATE, PROJECT_DUE_DATE) VALUES (:PROJECT_ID, :PROJECT_NAME, :PROJECT_STATUS, :PROJECT_START_DATE, :PROJECT_DUE_DATE)'
+            UpdateCommand='UPDATE UserProject SET PROJECT_NAME = :PROJECT_NAME, PROJECT_STATUS = :PROJECT_STATUS, PROJECT_START_DATE = :PROJECT_START_DATE, PROJECT_DUE_DATE = :PROJECT_DUE_DATE WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL))'
+            OldValuesParameterFormatString="original_{0}"
+            OnDeleted="SqlDataSource1_Deleted">
             <DeleteParameters>
                 <asp:Parameter Name="original_PROJECT_ID" Type="Decimal" />
                 <asp:Parameter Name="original_PROJECT_NAME" Type="String" />
                 <asp:Parameter Name="original_PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="original_PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="original_PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_USER_ID" Type="Decimal" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="PROJECT_ID" Type="Decimal" />
@@ -263,32 +269,33 @@
                 <asp:Parameter Name="PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="USER_ID" Type="Decimal" />
             </InsertParameters>
             <UpdateParameters>
                 <asp:Parameter Name="PROJECT_NAME" Type="String" />
                 <asp:Parameter Name="PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="USER_ID" Type="Decimal" />
                 <asp:Parameter Name="original_PROJECT_ID" Type="Decimal" />
                 <asp:Parameter Name="original_PROJECT_NAME" Type="String" />
                 <asp:Parameter Name="original_PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="original_PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="original_PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_USER_ID" Type="Decimal" />
             </UpdateParameters>
         </asp:SqlDataSource>
 
         <!-- SQL Data Source for FormView -->
-        <asp:SqlDataSource ID="SqlDataSourceFormView" runat="server" ConflictDetection="CompareAllValues" 
-                          ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-                          DeleteCommand='DELETE FROM PROJECT WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL)) AND USER_ID = :original_USER_ID' 
-                          InsertCommand='INSERT INTO PROJECT (PROJECT_ID, PROJECT_NAME, PROJECT_STATUS, PROJECT_START_DATE, PROJECT_DUE_DATE, USER_ID) VALUES (:PROJECT_ID, :PROJECT_NAME, :PROJECT_STATUS, :PROJECT_START_DATE, :PROJECT_DUE_DATE, :USER_ID)' 
-                          OldValuesParameterFormatString="original_{0}" 
-                          ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" 
-                          SelectCommand='SELECT * FROM PROJECT WHERE PROJECT_ID = :PROJECT_ID' 
-                          UpdateCommand='UPDATE PROJECT SET PROJECT_NAME = :PROJECT_NAME, PROJECT_STATUS = :PROJECT_STATUS, PROJECT_START_DATE = :PROJECT_START_DATE, PROJECT_DUE_DATE = :PROJECT_DUE_DATE, USER_ID = :USER_ID WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL)) AND USER_ID = :original_USER_ID'>
+        <asp:SqlDataSource ID="SqlDataSourceFormView" runat="server" 
+            ConflictDetection="CompareAllValues" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT * FROM UserProject WHERE PROJECT_ID = :PROJECT_ID'
+            DeleteCommand='DELETE FROM UserProject WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL))'
+            InsertCommand='INSERT INTO UserProject (PROJECT_ID, PROJECT_NAME, PROJECT_STATUS, PROJECT_START_DATE, PROJECT_DUE_DATE) VALUES (:PROJECT_ID, :PROJECT_NAME, :PROJECT_STATUS, :PROJECT_START_DATE, :PROJECT_DUE_DATE)'
+            UpdateCommand='UPDATE UserProject SET PROJECT_NAME = :PROJECT_NAME, PROJECT_STATUS = :PROJECT_STATUS, PROJECT_START_DATE = :PROJECT_START_DATE, PROJECT_DUE_DATE = :PROJECT_DUE_DATE WHERE PROJECT_ID = :original_PROJECT_ID AND ((PROJECT_NAME = :original_PROJECT_NAME) OR (PROJECT_NAME IS NULL AND :original_PROJECT_NAME IS NULL)) AND ((PROJECT_STATUS = :original_PROJECT_STATUS) OR (PROJECT_STATUS IS NULL AND :original_PROJECT_STATUS IS NULL)) AND ((PROJECT_START_DATE = :original_PROJECT_START_DATE) OR (PROJECT_START_DATE IS NULL AND :original_PROJECT_START_DATE IS NULL)) AND ((PROJECT_DUE_DATE = :original_PROJECT_DUE_DATE) OR (PROJECT_DUE_DATE IS NULL AND :original_PROJECT_DUE_DATE IS NULL))'
+            OldValuesParameterFormatString="original_{0}"
+            OnDeleted="SqlDataSourceFormView_Deleted"
+            OnInserted="SqlDataSourceFormView_Inserted"
+            OnUpdated="SqlDataSourceFormView_Updated">
             <SelectParameters>
                 <asp:ControlParameter ControlID="GridView1" Name="PROJECT_ID" PropertyName="SelectedValue" Type="Decimal" />
             </SelectParameters>
@@ -298,7 +305,6 @@
                 <asp:Parameter Name="original_PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="original_PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="original_PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_USER_ID" Type="Decimal" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="PROJECT_ID" Type="Decimal" />
@@ -306,20 +312,17 @@
                 <asp:Parameter Name="PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="USER_ID" Type="Decimal" />
             </InsertParameters>
             <UpdateParameters>
                 <asp:Parameter Name="PROJECT_NAME" Type="String" />
                 <asp:Parameter Name="PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="USER_ID" Type="Decimal" />
                 <asp:Parameter Name="original_PROJECT_ID" Type="Decimal" />
                 <asp:Parameter Name="original_PROJECT_NAME" Type="String" />
                 <asp:Parameter Name="original_PROJECT_STATUS" Type="String" />
                 <asp:Parameter Name="original_PROJECT_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="original_PROJECT_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_USER_ID" Type="Decimal" />
             </UpdateParameters>
         </asp:SqlDataSource>
     </div>

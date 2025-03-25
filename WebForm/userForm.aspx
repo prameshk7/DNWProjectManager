@@ -8,6 +8,9 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-semibold text-teal-700 mb-6">User Management</h2>
         
+        <!-- Error Message Label -->
+        <asp:Label ID="lblError" runat="server" CssClass="text-red-500 mb-4 block" Visible="false"></asp:Label>
+
         <!-- Form View for User Details -->
         <div class="mb-8 bg-gradient-to-r from-blue-50 to-teal-50 p-4 rounded-lg border border-teal-100">
             <h3 class="text-lg font-medium text-blue-700 mb-4">User Details</h3>
@@ -23,16 +26,22 @@
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="USER_NAMETextBox" runat="server" Text='<%# Bind("USER_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvUserNameEdit" runat="server" ControlToValidate="USER_NAMETextBox" 
+                                                        ErrorMessage="Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Email:</label>
                             <asp:TextBox ID="USER_EMAILTextBox" runat="server" Text='<%# Bind("USER_EMAIL") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvUserEmailEdit" runat="server" ControlToValidate="USER_EMAILTextBox" 
+                                                        ErrorMessage="Email is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Contact:</label>
                             <asp:TextBox ID="CONTACTTextBox" runat="server" Text='<%# Bind("CONTACT") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvContactEdit" runat="server" ControlToValidate="CONTACTTextBox" 
+                                                        ErrorMessage="Contact is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">User Type:</label>
@@ -63,21 +72,29 @@
                             <label class="w-32 font-medium text-gray-700">User ID:</label>
                             <asp:TextBox ID="USER_IDTextBox" runat="server" Text='<%# Bind("USER_ID") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvUserIDInsert" runat="server" ControlToValidate="USER_IDTextBox" 
+                                                        ErrorMessage="User ID is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="USER_NAMETextBox" runat="server" Text='<%# Bind("USER_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvUserNameInsert" runat="server" ControlToValidate="USER_NAMETextBox" 
+                                                        ErrorMessage="Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Email:</label>
                             <asp:TextBox ID="USER_EMAILTextBox" runat="server" Text='<%# Bind("USER_EMAIL") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvUserEmailInsert" runat="server" ControlToValidate="USER_EMAILTextBox" 
+                                                        ErrorMessage="Email is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Contact:</label>
                             <asp:TextBox ID="CONTACTTextBox" runat="server" Text='<%# Bind("CONTACT") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvContactInsert" runat="server" ControlToValidate="CONTACTTextBox" 
+                                                        ErrorMessage="Contact is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">User Type:</label>
@@ -266,7 +283,8 @@
             DeleteCommand='DELETE FROM "User" WHERE "USER_ID" = :original_USER_ID AND (("USER_NAME" = :original_USER_NAME) OR ("USER_NAME" IS NULL AND :original_USER_NAME IS NULL)) AND (("USER_EMAIL" = :original_USER_EMAIL) OR ("USER_EMAIL" IS NULL AND :original_USER_EMAIL IS NULL)) AND (("CONTACT" = :original_CONTACT) OR ("CONTACT" IS NULL AND :original_CONTACT IS NULL)) AND (("USER_TYPE" = :original_USER_TYPE) OR ("USER_TYPE" IS NULL AND :original_USER_TYPE IS NULL))'
             InsertCommand='INSERT INTO "User" ("USER_ID", "USER_NAME", "USER_EMAIL", "CONTACT", "USER_TYPE") VALUES (:USER_ID, :USER_NAME, :USER_EMAIL, :CONTACT, :USER_TYPE)'
             UpdateCommand='UPDATE "User" SET "USER_NAME" = :USER_NAME, "USER_EMAIL" = :USER_EMAIL, "CONTACT" = :CONTACT, "USER_TYPE" = :USER_TYPE WHERE "USER_ID" = :original_USER_ID AND (("USER_NAME" = :original_USER_NAME) OR ("USER_NAME" IS NULL AND :original_USER_NAME IS NULL)) AND (("USER_EMAIL" = :original_USER_EMAIL) OR ("USER_EMAIL" IS NULL AND :original_USER_EMAIL IS NULL)) AND (("CONTACT" = :original_CONTACT) OR ("CONTACT" IS NULL AND :original_CONTACT IS NULL)) AND (("USER_TYPE" = :original_USER_TYPE) OR ("USER_TYPE" IS NULL AND :original_USER_TYPE IS NULL))'
-            OldValuesParameterFormatString="original_{0}">
+            OldValuesParameterFormatString="original_{0}"
+            OnInserted="SqlDataSourceFormView_Inserted">
             <SelectParameters>
                 <asp:ControlParameter ControlID="GridView1" Name="USER_ID" PropertyName="SelectedValue" Type="Decimal" />
             </SelectParameters>

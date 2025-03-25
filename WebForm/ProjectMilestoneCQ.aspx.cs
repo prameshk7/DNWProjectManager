@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace DataCoursework.WebForm
 {
@@ -8,10 +13,22 @@ namespace DataCoursework.WebForm
         {
             if (!IsPostBack)
             {
+
+                ddlProjects.DataBind();
+
+
+                if (ddlProjects.Items.Count > 1)
+                {
+                    ddlProjects.SelectedIndex = 1;
+                    DetailsView1.DataBind();
+                    GridView1.DataBind();
+                }
+
                 string projectId = Request.QueryString["PROJECT_ID"];
                 if (!string.IsNullOrEmpty(projectId))
                 {
-                    SqlDataSource1.SelectParameters["PROJECT_ID"].DefaultValue = projectId;
+                    ddlProjects.SelectedValue = projectId;
+                    DetailsView1.DataBind();
                     GridView1.DataBind();
                 }
             }
@@ -19,9 +36,8 @@ namespace DataCoursework.WebForm
 
         protected void ddlProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DetailsView1.DataBind();
             GridView1.DataBind();
         }
-
-    
     }
 }

@@ -119,12 +119,12 @@
   <ItemGroup>
     <Content Include="WebForm\Dashboard.aspx" />
     <Content Include="WebForm\milestoneForm.aspx" />
-    <Content Include="WebForm\projectForm.aspx" />
+    <Content Include="WebForm\projectDetailsForm.aspx" />
     <Content Include="WebForm\ProjectMilestoneCQ.aspx" />
-    <Content Include="WebForm\projectTaskForm.aspx" />
+    <Content Include="WebForm\projectInfoForm.aspx" />
     <Content Include="WebForm\subtaskForm.aspx" />
-    <Content Include="WebForm\taskForm.aspx" />
-    <Content Include="WebForm\taskSubtaskForm.aspx" />
+    <Content Include="WebForm\userTaskForm.aspx" />
+    <Content Include="WebForm\taskInfoForm.aspx" />
     <Content Include="WebForm\TESTFORM.aspx" />
     <Content Include="WebForm\TopPerformerCQ.aspx" />
     <Content Include="WebForm\userForm.aspx" />
@@ -153,12 +153,12 @@
     <Compile Include="WebForm\milestoneForm.aspx.designer.cs">
       <DependentUpon>milestoneForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm\projectForm.aspx.cs">
-      <DependentUpon>projectForm.aspx</DependentUpon>
+    <Compile Include="WebForm\projectDetailsForm.aspx.cs">
+      <DependentUpon>projectDetailsForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm\projectForm.aspx.designer.cs">
-      <DependentUpon>projectForm.aspx</DependentUpon>
+    <Compile Include="WebForm\projectDetailsForm.aspx.designer.cs">
+      <DependentUpon>projectDetailsForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm\ProjectMilestoneCQ.aspx.cs">
       <DependentUpon>ProjectMilestoneCQ.aspx</DependentUpon>
@@ -167,12 +167,12 @@
     <Compile Include="WebForm\ProjectMilestoneCQ.aspx.designer.cs">
       <DependentUpon>ProjectMilestoneCQ.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm\projectTaskForm.aspx.cs">
-      <DependentUpon>projectTaskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\projectInfoForm.aspx.cs">
+      <DependentUpon>projectInfoForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm\projectTaskForm.aspx.designer.cs">
-      <DependentUpon>projectTaskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\projectInfoForm.aspx.designer.cs">
+      <DependentUpon>projectInfoForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebForm\subtaskForm.aspx.cs">
@@ -182,19 +182,19 @@
     <Compile Include="WebForm\subtaskForm.aspx.designer.cs">
       <DependentUpon>subtaskForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm\taskForm.aspx.cs">
-      <DependentUpon>taskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\userTaskForm.aspx.cs">
+      <DependentUpon>userTaskForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm\taskForm.aspx.designer.cs">
-      <DependentUpon>taskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\userTaskForm.aspx.designer.cs">
+      <DependentUpon>userTaskForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm\taskSubtaskForm.aspx.cs">
-      <DependentUpon>taskSubtaskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\taskInfoForm.aspx.cs">
+      <DependentUpon>taskInfoForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm\taskSubtaskForm.aspx.designer.cs">
-      <DependentUpon>taskSubtaskForm.aspx</DependentUpon>
+    <Compile Include="WebForm\taskInfoForm.aspx.designer.cs">
+      <DependentUpon>taskInfoForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm\TESTFORM.aspx.cs">
       <DependentUpon>TESTFORM.aspx</DependentUpon>

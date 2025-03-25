@@ -9,10 +9,7 @@ namespace DataCoursework.WebForm
         {
             if (!IsPostBack)
             {
-
                 ddlProjects.DataBind();
-
-
                 GridView1.DataSourceID = "SqlDataSourceAllProjects";
                 GridView1.DataBind();
             }
@@ -20,15 +17,14 @@ namespace DataCoursework.WebForm
 
         protected void ddlProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (string.IsNullOrEmpty(ddlProjects.SelectedValue))
             {
-                // "All Projects" selected - use the query without project filter
+                
                 GridView1.DataSourceID = "SqlDataSourceAllProjects";
             }
             else
             {
-                // Specific project selected - use the query with project filter
+     
                 GridView1.DataSourceID = "SqlDataSourceSpecificProject";
             }
 

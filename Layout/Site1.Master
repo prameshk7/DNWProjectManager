@@ -6,9 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100">
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true" EnableScriptLocalization="true">
+        </asp:ScriptManager>
         <div class="min-h-screen flex flex-row">
             <nav class="bg-gray-800 text-white w-64 flex-shrink-0 min-h-screen">
                 <div class="p-4 border-b border-gray-700">
@@ -28,7 +31,7 @@
                         </a>
                     </li>
                     <li class="px-4 py-2">
-                        <a href="<%=ResolveUrl("~/WebForm/projectForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                        <a href="<%=ResolveUrl("~/WebForm/ProjectDetailsForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
                             Project Details
                         </a>
                     </li>
@@ -38,7 +41,7 @@
                         </a>
                     </li>
                     <li class="px-4 py-2">
-                        <a href="<%=ResolveUrl("~/WebForm/taskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
+                        <a href="<%=ResolveUrl("~/WebForm/userTaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">
                             Task Details
                         </a>
                     </li>
@@ -47,12 +50,12 @@
                             User Details
                         </a>
                     </li>
-                    <!--<li class="px-4 py-2">
-                        <a href="<%=ResolveUrl("~/WebForm/projectTaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Project Tasks</a>
-                    </li>-->
-                     <!--<li class="px-4 py-2">
-                        <a href="<%=ResolveUrl("~/WebForm/taskSubtaskForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Task Subtasks</a>
-                    </li>-->
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/projectInfoForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Project Informations</a>
+                    </li>
+                    <li class="px-4 py-2">
+                        <a href="<%=ResolveUrl("~/WebForm/taskInfoForm.aspx")%>" class="block hover:bg-gray-700 p-2 rounded">Task Informations</a>
+                    </li>
 
                     <!-- Reports Submenu -->
                     <li class="px-4 py-2">

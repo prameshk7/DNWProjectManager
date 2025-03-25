@@ -17,7 +17,7 @@
             <asp:SqlDataSource ID="SqlDataSourceProjects" runat="server" 
                 ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
                 ProviderName="Oracle.ManagedDataAccess.Client"
-                SelectCommand="SELECT &quot;PROJECT_ID&quot;, &quot;PROJECT_NAME&quot; FROM &quot;PROJECT&quot; ORDER BY &quot;PROJECT_NAME&quot;" />
+                SelectCommand="SELECT &quot;PROJECT_ID&quot;, &quot;PROJECT_NAME&quot; FROM &quot;USERPROJECT&quot; ORDER BY &quot;PROJECT_NAME&quot;" />
         </div>
 
         <!-- SqlDataSource for All Projects -->
@@ -27,13 +27,12 @@
             SelectCommand="
                 SELECT *
                 FROM (
-                    SELECT u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, u.&quot;USER_EMAIL&quot;, COUNT(t.&quot;TASK_ID&quot;) AS &quot;COMPLETED_TASKS&quot;
+                    SELECT u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, COUNT(ut.&quot;TASK_ID&quot;) AS &quot;COMPLETED_TASKS&quot;
                     FROM &quot;User&quot; u
-                    JOIN &quot;PROJECT&quot; p ON p.&quot;USER_ID&quot; = u.&quot;USER_ID&quot;
-                    JOIN &quot;PROJECTTASK&quot; pt ON p.&quot;PROJECT_ID&quot; = pt.&quot;PROJECT_ID&quot;
-                    JOIN &quot;TASK&quot; t ON pt.&quot;TASK_ID&quot; = t.&quot;TASK_ID&quot;
-                    WHERE t.&quot;TASK_STATUS&quot; = 'Completed'
-                    GROUP BY u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, u.&quot;USER_EMAIL&quot;
+                    JOIN &quot;TASK&quot; t ON u.&quot;USER_ID&quot; = t.&quot;USER_ID&quot;
+                    JOIN &quot;USERTASK&quot; ut ON t.&quot;TASK_ID&quot; = ut.&quot;TASK_ID&quot;
+                    WHERE ut.&quot;TASK_STATUS&quot; = 'Completed'
+                    GROUP BY u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;
                     ORDER BY &quot;COMPLETED_TASKS&quot; DESC
                 )
                 WHERE ROWNUM <= 3" />
@@ -45,14 +44,15 @@
             SelectCommand="
                 SELECT *
                 FROM (
-                    SELECT u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, u.&quot;USER_EMAIL&quot;, COUNT(t.&quot;TASK_ID&quot;) AS &quot;COMPLETED_TASKS&quot;
+                    SELECT u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, COUNT(ut.&quot;TASK_ID&quot;) AS &quot;COMPLETED_TASKS&quot;
                     FROM &quot;User&quot; u
-                    JOIN &quot;PROJECT&quot; p ON p.&quot;USER_ID&quot; = u.&quot;USER_ID&quot;
-                    JOIN &quot;PROJECTTASK&quot; pt ON p.&quot;PROJECT_ID&quot; = pt.&quot;PROJECT_ID&quot;
-                    JOIN &quot;TASK&quot; t ON pt.&quot;TASK_ID&quot; = t.&quot;TASK_ID&quot;
-                    WHERE t.&quot;TASK_STATUS&quot; = 'Completed'
-                    AND p.&quot;PROJECT_ID&quot; = :PROJECT_ID
-                    GROUP BY u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;, u.&quot;USER_EMAIL&quot;
+                    JOIN &quot;PROJECT&quot; p ON u.&quot;USER_ID&quot; = p.&quot;USER_ID&quot;
+                    JOIN &quot;USERPROJECT&quot; up ON p.&quot;PROJECT_ID&quot; = up.&quot;PROJECT_ID&quot;
+                    JOIN &quot;USERTASK&quot; ut ON up.&quot;PROJECT_ID&quot; = ut.&quot;PROJECT_ID&quot;
+                    JOIN &quot;TASK&quot; t ON ut.&quot;TASK_ID&quot; = t.&quot;TASK_ID&quot; AND t.&quot;USER_ID&quot; = u.&quot;USER_ID&quot;
+                    WHERE ut.&quot;TASK_STATUS&quot; = 'Completed'
+                    AND up.&quot;PROJECT_ID&quot; = :PROJECT_ID
+                    GROUP BY u.&quot;USER_ID&quot;, u.&quot;USER_NAME&quot;
                     ORDER BY &quot;COMPLETED_TASKS&quot; DESC
                 )
                 WHERE ROWNUM <= 3">
@@ -67,7 +67,6 @@
             <Columns>
                 <asp:BoundField DataField="USER_ID" HeaderText="User ID" SortExpression="USER_ID" ItemStyle-CssClass="border p-3" HeaderStyle-CssClass="bg-gray-100 border p-3 font-semibold" />
                 <asp:BoundField DataField="USER_NAME" HeaderText="User Name" SortExpression="USER_NAME" ItemStyle-CssClass="border p-3" HeaderStyle-CssClass="bg-gray-100 border p-3 font-semibold" />
-                <asp:BoundField DataField="USER_EMAIL" HeaderText="Email" SortExpression="USER_EMAIL" ItemStyle-CssClass="border p-3" HeaderStyle-CssClass="bg-gray-100 border p-3 font-semibold" />
                 <asp:BoundField DataField="COMPLETED_TASKS" HeaderText="Completed Tasks" SortExpression="COMPLETED_TASKS" ItemStyle-CssClass="border p-3" HeaderStyle-CssClass="bg-gray-100 border p-3 font-semibold" />
             </Columns>
             <EmptyDataTemplate>

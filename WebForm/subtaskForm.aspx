@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/layout/Site1.master" AutoEventWireup="true" CodeBehind="subtaskForm.aspx.cs" Inherits="DataCoursework.WebForm.subtaskForm" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Layout/Site1.master" AutoEventWireup="true" CodeBehind="subtaskForm.aspx.cs" Inherits="DataCoursework.subtaskForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Subtask Management</title>
@@ -8,11 +8,14 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-semibold text-teal-700 mb-6">Subtask Management</h2>
         
+        <!-- Error Message Label -->
+        <asp:Label ID="lblError" runat="server" CssClass="text-red-500 mb-4 block" Visible="false"></asp:Label>
+
         <!-- Form View for Subtask Details -->
         <div class="mb-8 bg-gradient-to-r from-blue-50 to-teal-50 p-4 rounded-lg border border-teal-100">
             <h3 class="text-lg font-medium text-blue-700 mb-4">Subtask Details</h3>
-            <asp:FormView ID="FormView2" runat="server" DataKeyNames="SUBTASK_ID" DataSourceID="SqlDataSourceFormView" 
-                          CssClass="w-full max-w-lg">
+            <asp:FormView ID="FormView1" runat="server" DataKeyNames="SUBTASK_ID" DataSourceID="SqlDataSourceFormView" 
+                          CssClass="w-full max-w-lg" AllowPaging="False">
                 <EditItemTemplate>
                     <div class="grid grid-cols-1 gap-4">
                         <div class="flex items-center">
@@ -23,6 +26,8 @@
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="SUBTASK_NAMETextBox" runat="server" Text='<%# Bind("SUBTASK_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvSubtaskNameEdit" runat="server" ControlToValidate="SUBTASK_NAMETextBox" 
+                                                        ErrorMessage="Subtask Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Status:</label>
@@ -37,11 +42,33 @@
                             <label class="w-32 font-medium text-gray-700">Start Date:</label>
                             <asp:TextBox ID="SUBTASK_START_DATETextBox" runat="server" Text='<%# Bind("SUBTASK_START_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvStartDateEdit" runat="server" ControlToValidate="SUBTASK_START_DATETextBox" 
+                                                        ErrorMessage="Start Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:TextBox ID="SUBTASK_DUE_DATETextBox" runat="server" Text='<%# Bind("SUBTASK_DUE_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvDueDateEdit" runat="server" ControlToValidate="SUBTASK_DUE_DATETextBox" 
+                                                        ErrorMessage="Due Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">Task:</label>
+                            <asp:DropDownList ID="TASK_IDDropDownList" runat="server" SelectedValue='<%# Bind("TASK_ID") %>'
+                                             DataSourceID="SqlDataSourceTasks" DataTextField="TASK_NAME" DataValueField="TASK_ID"
+                                             CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvTaskEdit" runat="server" ControlToValidate="TASK_IDDropDownList" 
+                                                        ErrorMessage="Task is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" InitialValue="" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">User:</label>
+                            <asp:DropDownList ID="USER_IDDropDownList" runat="server" SelectedValue='<%# Bind("USER_ID") %>'
+                                             DataSourceID="SqlDataSourceUsers" DataTextField="USER_NAME" DataValueField="USER_ID"
+                                             CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvUserEdit" runat="server" ControlToValidate="USER_IDDropDownList" 
+                                                        ErrorMessage="User is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" InitialValue="" />
                         </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" CommandName="Update" 
@@ -61,11 +88,15 @@
                             <label class="w-32 font-medium text-gray-700">Subtask ID:</label>
                             <asp:TextBox ID="SUBTASK_IDTextBox" runat="server" Text='<%# Bind("SUBTASK_ID") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvSubtaskIDInsert" runat="server" ControlToValidate="SUBTASK_IDTextBox" 
+                                                        ErrorMessage="Subtask ID is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Name:</label>
                             <asp:TextBox ID="SUBTASK_NAMETextBox" runat="server" Text='<%# Bind("SUBTASK_NAME") %>' 
                                         CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvSubtaskNameInsert" runat="server" ControlToValidate="SUBTASK_NAMETextBox" 
+                                                        ErrorMessage="Subtask Name is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Status:</label>
@@ -80,11 +111,33 @@
                             <label class="w-32 font-medium text-gray-700">Start Date:</label>
                             <asp:TextBox ID="SUBTASK_START_DATETextBox" runat="server" Text='<%# Bind("SUBTASK_START_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvStartDateInsert" runat="server" ControlToValidate="SUBTASK_START_DATETextBox" 
+                                                        ErrorMessage="Start Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
                         </div>
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:TextBox ID="SUBTASK_DUE_DATETextBox" runat="server" Text='<%# Bind("SUBTASK_DUE_DATE", "{0:yyyy-MM-ddTHH:mm}") %>'
                                         TextMode="DateTimeLocal" CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500" />
+                            <asp:RequiredFieldValidator ID="rfvDueDateInsert" runat="server" ControlToValidate="SUBTASK_DUE_DATETextBox" 
+                                                        ErrorMessage="Due Date is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">Task:</label>
+                            <asp:DropDownList ID="TASK_IDDropDownList" runat="server" SelectedValue='<%# Bind("TASK_ID") %>'
+                                             DataSourceID="SqlDataSourceTasks" DataTextField="TASK_NAME" DataValueField="TASK_ID"
+                                             CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvTaskInsert" runat="server" ControlToValidate="TASK_IDDropDownList" 
+                                                        ErrorMessage="Task is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" InitialValue="" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">User:</label>
+                            <asp:DropDownList ID="USER_IDDropDownList" runat="server" SelectedValue='<%# Bind("USER_ID") %>'
+                                             DataSourceID="SqlDataSourceUsers" DataTextField="USER_NAME" DataValueField="USER_ID"
+                                             CssClass="border rounded-md p-2 flex-1 focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvUserInsert" runat="server" ControlToValidate="USER_IDDropDownList" 
+                                                        ErrorMessage="User is required." CssClass="text-red-500 text-sm ml-2" Display="Dynamic" InitialValue="" />
                         </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" CommandName="Insert" 
@@ -119,6 +172,14 @@
                         <div class="flex items-center">
                             <label class="w-32 font-medium text-gray-700">Due Date:</label>
                             <asp:Label ID="SUBTASK_DUE_DATELabel" runat="server" Text='<%# Bind("SUBTASK_DUE_DATE") %>' CssClass="text-gray-900" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">Task:</label>
+                            <asp:Label ID="TASK_IDLabel" runat="server" Text='<%# Eval("TASK_NAME") %>' CssClass="text-gray-900" />
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-32 font-medium text-gray-700">User:</label>
+                            <asp:Label ID="USER_IDLabel" runat="server" Text='<%# Eval("USER_NAME") %>' CssClass="text-gray-900" />
                         </div>
                         <div class="flex space-x-2 mt-4">
                             <asp:LinkButton ID="EditButton" runat="server" CausesValidation="False" CommandName="Edit" 
@@ -199,6 +260,32 @@
                             <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
                             <ItemStyle CssClass="p-4"></ItemStyle>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Task" SortExpression="TASK_ID" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700">
+                            <ItemTemplate>
+                                <asp:Label ID="TASK_IDLabel" runat="server" Text='<%# Eval("TASK_NAME") %>' />
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:DropDownList ID="TASK_IDDropDownList" runat="server" SelectedValue='<%# Bind("TASK_ID") %>'
+                                                 DataSourceID="SqlDataSourceTasks" DataTextField="TASK_NAME" DataValueField="TASK_ID"
+                                                 CssClass="border rounded-md p-2 w-full focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                                </asp:DropDownList>
+                            </EditItemTemplate>
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="User" SortExpression="USER_ID" ItemStyle-CssClass="p-4" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700">
+                            <ItemTemplate>
+                                <asp:Label ID="USER_IDLabel" runat="server" Text='<%# Eval("USER_NAME") %>' />
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:DropDownList ID="USER_IDDropDownList" runat="server" SelectedValue='<%# Bind("USER_ID") %>'
+                                                 DataSourceID="SqlDataSourceUsers" DataTextField="USER_NAME" DataValueField="USER_ID"
+                                                 CssClass="border rounded-md p-2 w-full focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                                </asp:DropDownList>
+                            </EditItemTemplate>
+                            <HeaderStyle CssClass="bg-gray-50 p-4 font-semibold text-gray-700"></HeaderStyle>
+                            <ItemStyle CssClass="p-4"></ItemStyle>
+                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Action" HeaderStyle-CssClass="bg-gray-50 p-4 font-semibold text-gray-700" ItemStyle-CssClass="p-4">
                             <ItemTemplate>
                                 <asp:LinkButton ID="SelectButton" runat="server" CommandName="Select" Text="Select"
@@ -222,7 +309,7 @@
                             </EditItemTemplate>
                         </asp:TemplateField>
                     </Columns>
-                    <HeaderStyle CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-black text-left"></HeaderStyle>
+                    <HeaderStyle CssClass="bg-gradient-to-r from-teal-500 to-blue-500 text-white text-left"></HeaderStyle>
                     <RowStyle CssClass="border-b hover:bg-blue-50"></RowStyle>
                 </asp:GridView>
             </div>
@@ -230,20 +317,15 @@
         
         <!-- SQL Data Source for GridView -->
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-            ConflictDetection="CompareAllValues" 
-            ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            DeleteCommand='DELETE FROM SUBTASK WHERE SUBTASK_ID = :original_SUBTASK_ID AND ((SUBTASK_NAME = :original_SUBTASK_NAME) OR (SUBTASK_NAME IS NULL AND :original_SUBTASK_NAME IS NULL)) AND ((SUBTASK_STATUS = :original_SUBTASK_STATUS) OR (SUBTASK_STATUS IS NULL AND :original_SUBTASK_STATUS IS NULL)) AND ((SUBTASK_START_DATE = :original_SUBTASK_START_DATE) OR (SUBTASK_START_DATE IS NULL AND :original_SUBTASK_START_DATE IS NULL)) AND ((SUBTASK_DUE_DATE = :original_SUBTASK_DUE_DATE) OR (SUBTASK_DUE_DATE IS NULL AND :original_SUBTASK_DUE_DATE IS NULL))'
-            InsertCommand='INSERT INTO SUBTASK (SUBTASK_ID, SUBTASK_NAME, SUBTASK_STATUS, SUBTASK_START_DATE, SUBTASK_DUE_DATE) VALUES (:SUBTASK_ID, :SUBTASK_NAME, :SUBTASK_STATUS, :SUBTASK_START_DATE, :SUBTASK_DUE_DATE)'
-            OldValuesParameterFormatString="original_{0}"
-            ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>"
-            SelectCommand='SELECT * FROM SUBTASK'
-            UpdateCommand='UPDATE SUBTASK SET SUBTASK_NAME = :SUBTASK_NAME, SUBTASK_STATUS = :SUBTASK_STATUS, SUBTASK_START_DATE = :SUBTASK_START_DATE, SUBTASK_DUE_DATE = :SUBTASK_DUE_DATE WHERE SUBTASK_ID = :original_SUBTASK_ID AND ((SUBTASK_NAME = :original_SUBTASK_NAME) OR (SUBTASK_NAME IS NULL AND :original_SUBTASK_NAME IS NULL)) AND ((SUBTASK_STATUS = :original_SUBTASK_STATUS) OR (SUBTASK_STATUS IS NULL AND :original_SUBTASK_STATUS IS NULL)) AND ((SUBTASK_START_DATE = :original_SUBTASK_START_DATE) OR (SUBTASK_START_DATE IS NULL AND :original_SUBTASK_START_DATE IS NULL)) AND ((SUBTASK_DUE_DATE = :original_SUBTASK_DUE_DATE) OR (SUBTASK_DUE_DATE IS NULL AND :original_SUBTASK_DUE_DATE IS NULL))'>
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT S.SUBTASK_ID, S.SUBTASK_NAME, S.SUBTASK_STATUS, S.SUBTASK_START_DATE, S.SUBTASK_DUE_DATE, S.TASK_ID, S.USER_ID, UT.TASK_NAME, U.USER_NAME FROM "SUBTASK" S JOIN "USERTASK" UT ON S.TASK_ID = UT.TASK_ID JOIN "User" U ON S.USER_ID = U.USER_ID'
+            DeleteCommand='DELETE FROM "SUBTASK" WHERE SUBTASK_ID = :SUBTASK_ID'
+            InsertCommand='INSERT INTO "SUBTASK" (SUBTASK_ID, SUBTASK_NAME, SUBTASK_STATUS, SUBTASK_START_DATE, SUBTASK_DUE_DATE, TASK_ID, USER_ID) VALUES (:SUBTASK_ID, :SUBTASK_NAME, :SUBTASK_STATUS, :SUBTASK_START_DATE, :SUBTASK_DUE_DATE, :TASK_ID, :USER_ID)'
+            UpdateCommand='UPDATE "SUBTASK" SET SUBTASK_NAME = :SUBTASK_NAME, SUBTASK_STATUS = :SUBTASK_STATUS, SUBTASK_START_DATE = :SUBTASK_START_DATE, SUBTASK_DUE_DATE = :SUBTASK_DUE_DATE, TASK_ID = :TASK_ID, USER_ID = :USER_ID WHERE SUBTASK_ID = :SUBTASK_ID'
+            OnDeleted="SqlDataSource1_Deleted">
             <DeleteParameters>
-                <asp:Parameter Name="original_SUBTASK_ID" Type="Decimal" />
-                <asp:Parameter Name="original_SUBTASK_NAME" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_STATUS" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_START_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
@@ -251,39 +333,36 @@
                 <asp:Parameter Name="SUBTASK_STATUS" Type="String" />
                 <asp:Parameter Name="SUBTASK_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="TASK_ID" Type="Decimal" />
+                <asp:Parameter Name="USER_ID" Type="Decimal" />
             </InsertParameters>
             <UpdateParameters>
                 <asp:Parameter Name="SUBTASK_NAME" Type="String" />
                 <asp:Parameter Name="SUBTASK_STATUS" Type="String" />
                 <asp:Parameter Name="SUBTASK_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="SUBTASK_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_ID" Type="Decimal" />
-                <asp:Parameter Name="original_SUBTASK_NAME" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_STATUS" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_START_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="TASK_ID" Type="Decimal" />
+                <asp:Parameter Name="USER_ID" Type="Decimal" />
+                <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
             </UpdateParameters>
         </asp:SqlDataSource>
 
         <!-- SQL Data Source for FormView -->
         <asp:SqlDataSource ID="SqlDataSourceFormView" runat="server" 
-            ConflictDetection="CompareAllValues" 
-            ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            DeleteCommand='DELETE FROM SUBTASK WHERE SUBTASK_ID = :original_SUBTASK_ID AND ((SUBTASK_NAME = :original_SUBTASK_NAME) OR (SUBTASK_NAME IS NULL AND :original_SUBTASK_NAME IS NULL)) AND ((SUBTASK_STATUS = :original_SUBTASK_STATUS) OR (SUBTASK_STATUS IS NULL AND :original_SUBTASK_STATUS IS NULL)) AND ((SUBTASK_START_DATE = :original_SUBTASK_START_DATE) OR (SUBTASK_START_DATE IS NULL AND :original_SUBTASK_START_DATE IS NULL)) AND ((SUBTASK_DUE_DATE = :original_SUBTASK_DUE_DATE) OR (SUBTASK_DUE_DATE IS NULL AND :original_SUBTASK_DUE_DATE IS NULL))'
-            InsertCommand='INSERT INTO SUBTASK (SUBTASK_ID, SUBTASK_NAME, SUBTASK_STATUS, SUBTASK_START_DATE, SUBTASK_DUE_DATE) VALUES (:SUBTASK_ID, :SUBTASK_NAME, :SUBTASK_STATUS, :SUBTASK_START_DATE, :SUBTASK_DUE_DATE)'
-            OldValuesParameterFormatString="original_{0}"
-            ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>"
-            SelectCommand='SELECT * FROM SUBTASK WHERE SUBTASK_ID = :SUBTASK_ID'
-            UpdateCommand='UPDATE SUBTASK SET SUBTASK_NAME = :SUBTASK_NAME, SUBTASK_STATUS = :SUBTASK_STATUS, SUBTASK_START_DATE = :SUBTASK_START_DATE, SUBTASK_DUE_DATE = :SUBTASK_DUE_DATE WHERE SUBTASK_ID = :original_SUBTASK_ID AND ((SUBTASK_NAME = :original_SUBTASK_NAME) OR (SUBTASK_NAME IS NULL AND :original_SUBTASK_NAME IS NULL)) AND ((SUBTASK_STATUS = :original_SUBTASK_STATUS) OR (SUBTASK_STATUS IS NULL AND :original_SUBTASK_STATUS IS NULL)) AND ((SUBTASK_START_DATE = :original_SUBTASK_START_DATE) OR (SUBTASK_START_DATE IS NULL AND :original_SUBTASK_START_DATE IS NULL)) AND ((SUBTASK_DUE_DATE = :original_SUBTASK_DUE_DATE) OR (SUBTASK_DUE_DATE IS NULL AND :original_SUBTASK_DUE_DATE IS NULL))'>
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT S.SUBTASK_ID, S.SUBTASK_NAME, S.SUBTASK_STATUS, S.SUBTASK_START_DATE, S.SUBTASK_DUE_DATE, S.TASK_ID, S.USER_ID, UT.TASK_NAME, U.USER_NAME FROM "SUBTASK" S JOIN "USERTASK" UT ON S.TASK_ID = UT.TASK_ID JOIN "User" U ON S.USER_ID = U.USER_ID WHERE S.SUBTASK_ID = :SUBTASK_ID'
+            DeleteCommand='DELETE FROM "SUBTASK" WHERE SUBTASK_ID = :SUBTASK_ID'
+            InsertCommand='INSERT INTO "SUBTASK" (SUBTASK_ID, SUBTASK_NAME, SUBTASK_STATUS, SUBTASK_START_DATE, SUBTASK_DUE_DATE, TASK_ID, USER_ID) VALUES (:SUBTASK_ID, :SUBTASK_NAME, :SUBTASK_STATUS, :SUBTASK_START_DATE, :SUBTASK_DUE_DATE, :TASK_ID, :USER_ID)'
+            UpdateCommand='UPDATE "SUBTASK" SET SUBTASK_NAME = :SUBTASK_NAME, SUBTASK_STATUS = :SUBTASK_STATUS, SUBTASK_START_DATE = :SUBTASK_START_DATE, SUBTASK_DUE_DATE = :SUBTASK_DUE_DATE, TASK_ID = :TASK_ID, USER_ID = :USER_ID WHERE SUBTASK_ID = :SUBTASK_ID'
+            OnDeleted="SqlDataSourceFormView_Deleted"
+            OnInserted="SqlDataSourceFormView_Inserted"
+            OnUpdated="SqlDataSourceFormView_Updated">
             <SelectParameters>
                 <asp:ControlParameter ControlID="GridView1" Name="SUBTASK_ID" PropertyName="SelectedValue" Type="Decimal" />
             </SelectParameters>
             <DeleteParameters>
-                <asp:Parameter Name="original_SUBTASK_ID" Type="Decimal" />
-                <asp:Parameter Name="original_SUBTASK_NAME" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_STATUS" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_START_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
@@ -291,18 +370,32 @@
                 <asp:Parameter Name="SUBTASK_STATUS" Type="String" />
                 <asp:Parameter Name="SUBTASK_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="TASK_ID" Type="Decimal" />
+                <asp:Parameter Name="USER_ID" Type="Decimal" />
             </InsertParameters>
             <UpdateParameters>
                 <asp:Parameter Name="SUBTASK_NAME" Type="String" />
                 <asp:Parameter Name="SUBTASK_STATUS" Type="String" />
                 <asp:Parameter Name="SUBTASK_START_DATE" Type="DateTime" />
                 <asp:Parameter Name="SUBTASK_DUE_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_ID" Type="Decimal" />
-                <asp:Parameter Name="original_SUBTASK_NAME" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_STATUS" Type="String" />
-                <asp:Parameter Name="original_SUBTASK_START_DATE" Type="DateTime" />
-                <asp:Parameter Name="original_SUBTASK_DUE_DATE" Type="DateTime" />
+                <asp:Parameter Name="TASK_ID" Type="Decimal" />
+                <asp:Parameter Name="USER_ID" Type="Decimal" />
+                <asp:Parameter Name="SUBTASK_ID" Type="Decimal" />
             </UpdateParameters>
+        </asp:SqlDataSource>
+
+        <!-- SQL Data Source for Tasks DropDownList -->
+        <asp:SqlDataSource ID="SqlDataSourceTasks" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT TASK_ID, TASK_NAME FROM "USERTASK"'>
+        </asp:SqlDataSource>
+
+        <!-- SQL Data Source for Users DropDownList -->
+        <asp:SqlDataSource ID="SqlDataSourceUsers" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString2 %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString2.ProviderName %>" 
+            SelectCommand='SELECT USER_ID, USER_NAME FROM "User"'>
         </asp:SqlDataSource>
     </div>
 </asp:Content>
